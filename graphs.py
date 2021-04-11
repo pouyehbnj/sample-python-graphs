@@ -1,5 +1,5 @@
 import pandas as pd
-df = pd.read_csv('./soc-sign-bitcoinalpha.csv', header=[0,1,2])
+df = pd.read_csv('./soc-sign-bitcoinalpha.csv', names=['source','destination','weight'])
 print(df)
 #df.columns = ['node_1','node_2','weight']
 # name_to_node = {name: i for i, name in enumerate(np.unique(df[["node_1", "node_2"]].values))}
