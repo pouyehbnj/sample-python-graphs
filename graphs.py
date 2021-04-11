@@ -2,6 +2,7 @@ import pandas as pd
 import networkx as nx
 import numpy as np
 
+#loading data to dataframe
 df = pd.read_csv('./soc-sign-bitcoinalpha.csv' ,  names=['source','destination','weight'] ,usecols=[0,1,2])
 print("raw data:")
 print(df)
