@@ -1,6 +1,7 @@
 import pandas as pd
 import networkx as nx
 import numpy as np
+from bokeh.plotting import figure, output_file, show
 #loading data to dataframe
 df = pd.read_csv('./soc-sign-bitcoinalpha.csv' ,  names=['source','destination','weight'] ,usecols=[0,1,2])
 print("raw data:")
@@ -19,14 +20,26 @@ print("adjacency matrix:")
 print(A)
 Graph = nx.from_pandas_edgelist(df,source='source',target='destination' , edge_attr='weight')
 print(Graph)
-# degrees = [val for (node, val) in sorted(Graph.degree(), key=lambda pair: pair[0])]
-
-# print(Graph.degree(876))
+# finding degrees 
 print(nx.info(Graph))
 for s in Graph.degree():
     print(s)
 
 
+#degree chart 
+nodes = sorted(list(Graph.nodes()))
+nodes_y = []  
+degrees_x= [] 
+for node in nodes:
+    degrees_x.append(Graph.degree[int(node)])
+    nodes_y.append(node)
+
+output_file("line.html")
+
+p = figure(plot_width=400, plot_height=400)
+p.line(degrees_x,nodes_y, line_width=2)
+
+show(p)
 for node in list(Graph.nodes):
     numberNeighbors=0 
     sumDegree=0
@@ -37,5 +50,6 @@ for node in list(Graph.nodes):
     print("node = " + str(node) + " avg of neighbors is : " + str(avgDegNeighbor))
 
         
+
 
 
