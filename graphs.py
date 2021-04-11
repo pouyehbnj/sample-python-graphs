@@ -59,7 +59,29 @@ p = figure(plot_width=400, plot_height=400 )
 p.line(nodes_y, avgDeg, line_width=2)
 
 show(p)
-        
 
+##calculate common neighbors
+listAvgCommonNeigh=[]
+for node in nodes:
+    numberNeighbors=0 
+    avgCommonNeigh=0
+    numberOfCommonNeighbors=0
+    
+    for neighbor in list(Graph.neighbors(node)):
+        numberNeighbors= numberNeighbors + 1 
+        numberOfCommonNeighbors = numberOfCommonNeighbors + len(sorted(nx.common_neighbors(Graph,node, neighbor)))
+        print("node = " + str(node) + " has this common neighbors : " + str(sorted(nx.common_neighbors(Graph,node, neighbor))) + " with neighbor " +str(neighbor))
+    avgCommonNeigh = numberOfCommonNeighbors/numberNeighbors
+    listAvgCommonNeigh.append(avgCommonNeigh)
+    print("node = " + str(node) + " avg of  common neighbors are : " + str(avgCommonNeigh))
 
+## chart common neighbors
+     
+
+output_file("commonNeighbors.html")
+print(len(listAvgCommonNeigh))
+p = figure(plot_width=400, plot_height=400 )
+p.line(nodes_y, listAvgCommonNeigh, line_width=2)
+
+show(p)
 
