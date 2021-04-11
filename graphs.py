@@ -40,15 +40,25 @@ p = figure(plot_width=400, plot_height=400)
 p.line(degrees_x,nodes_y, line_width=2)
 
 show(p)
-for node in list(Graph.nodes):
+
+## calculate avg degree each node's neighbors
+avgDeg = []
+for node in nodes:
     numberNeighbors=0 
     sumDegree=0
     for neighbor in list(Graph.neighbors(node)):
         numberNeighbors= numberNeighbors + 1 
         sumDegree =  Graph.degree(neighbor) + sumDegree
     avgDegNeighbor = sumDegree/numberNeighbors
+    avgDeg.append(avgDegNeighbor)
     print("node = " + str(node) + " avg of neighbors is : " + str(avgDegNeighbor))
+## chart avg degree node's neighbors
+output_file("avgNeighbors.html")
 
+p = figure(plot_width=400, plot_height=400 )
+p.line(nodes_y, avgDeg, line_width=2)
+
+show(p)
         
 
 
