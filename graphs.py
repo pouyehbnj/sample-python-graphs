@@ -78,6 +78,9 @@ for node in nodes:
 ## chart common neighbors
      
 
+
+
+
 output_file("commonNeighbors.html")
 print(len(listAvgCommonNeigh))
 p = figure(plot_width=400, plot_height=400 )
