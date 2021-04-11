@@ -2,6 +2,7 @@ import pandas as pd
 import networkx as nx
 import numpy as np
 from bokeh.plotting import figure, output_file, show
+from random import sample
 #loading data to dataframe
 df = pd.read_csv('./soc-sign-bitcoinalpha.csv' ,  names=['source','destination','weight'] ,usecols=[0,1,2])
 print("raw data:")
@@ -40,6 +41,9 @@ p = figure(plot_width=400, plot_height=400)
 p.line(degrees_x,nodes_y, line_width=2)
 
 show(p)
+
+# neighbours average degree
+
 for node in list(Graph.nodes):
     numberNeighbors=0 
     sumDegree=0
@@ -50,6 +54,25 @@ for node in list(Graph.nodes):
     print("node = " + str(node) + " avg of neighbors is : " + str(avgDegNeighbor))
 
         
+#shortest path to other nodes 
 
-
+compressed_graph = Graph 
+number_of_nodes = int(len(list(Graph.nodes()))*(95/100))
+random_nodes = sample((list(Graph.nodes())),number_of_nodes)
+compressed_graph.remove_nodes_from(random_nodes)
+sp = dict(nx.all_pairs_shortest_path(compressed_graph))
+print("hi")
+for node in sp.values():
+    print("Node:")
+    print(node)
+    print("---------------------------------")
+    len_sum = 0
+    count = 0
+    for paths in node.values():
+       print(paths)
+       len_sum = len_sum + len(paths)
+       count = count + 1
+    avg = len_sum / count
+    print("Average of shortest path to other nodes: " + str(avg))
+    print("***********")
 
