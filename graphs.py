@@ -87,7 +87,8 @@ p.line(nodes_y, listAvgCommonNeigh, line_width=2)
 show(p)
         
 #shortest path to other nodes 
-
+nodes_sp_y = []  
+avg_sp_x= []
 compressed_graph = Graph 
 number_of_nodes = int(len(list(Graph.nodes()))*(95/100))
 random_nodes = sample((list(Graph.nodes())),number_of_nodes)
@@ -97,16 +98,26 @@ print("hi")
 for node in sp.values():
     print("Node:")
     print(node)
+    print("the Node:")
+    print(list(node.values())[0])
+    nodes_sp_y.append(list(node.values())[0])
     print("---------------------------------")
     len_sum = 0
     count = 0
     for paths in node.values():
-       print(paths)
        len_sum = len_sum + len(paths)
        count = count + 1
     avg = len_sum / count
+    avg_sp_x.append(avg)
     print("Average of shortest path to other nodes: " + str(avg))
     print("***********")
 
 
+## chart shortest path to other nodes
 
+output_file("shortestPathAVG.html")
+
+p = figure(plot_width=400, plot_height=400 )
+p.line(avg_sp_x, nodes_sp_y, line_width=2)
+
+show(p)
