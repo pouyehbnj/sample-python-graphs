@@ -155,7 +155,52 @@ def calculate_dikstra_for_all_nodes():
     show(p)
     return avgAllNodes,random_nodes
 
-avgAllNodes,random_nodes=calculate_dikstra_for_all_nodes()
-print(avgAllNodes)
+# avgAllNodes,random_nodes=calculate_dikstra_for_all_nodes()
+# print(avgAllNodes)
  
  ## chart dijkstra
+
+## common neighbours
+def find_neighbours(node):
+    neighbours = []
+    col_id = 0
+    for col in nodes[node]: 
+        if col!=0 :
+            neighbours.append(col_id)
+            col_id = col_id + 1
+    return neighbours
+
+node_id=0
+common_neighbour_avg_arr = []
+for node in nodes:
+    current_node = []
+    current_neighbour = []
+    current_node = find_neighbours(node_id)
+    neighbor_num = 0
+    node_id = node_id + 1
+    intersection = []
+    common_neighbour_sum = 0
+    common_neighbour_avg = 0  
+    for neighbour in current_node:
+        current_neighbour = find_neighbours(neighbour)
+        intersection = np.intersect1d(current_neighbour, current_node)
+        common_neighbour_sum =  common_neighbour_sum + len (intersection)
+        neighbor_num = neighbor_num + 1
+        print("Node " + str(node_id) + " With Node " + str(neighbour) + " Size:" + str(len (intersection)) + " - Common Neighbor: " + str(intersection))    
+        print("###########################")
+
+        if neighbor_num!=0:
+            common_neighbour_avg = common_neighbour_sum/neighbor_num
+            print("Node " + str(node_id) + " With Node " + str(neighbour) + " - Avg Common Neighbor Dgree: " + str(common_neighbour_sum/neighbor_num))    
+            print("###########################")
+    common_neighbour_avg_arr.append(common_neighbour_avg)
+
+
+## common neighbours
+
+output_file("CommonNeighbours.html")
+
+p = figure(plot_width=400, plot_height=400)
+p.line(common_neighbour_avg_arr,nodes_y, line_width=2)
+
+show(p)
