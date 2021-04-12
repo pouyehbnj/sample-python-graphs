@@ -83,6 +83,7 @@ show(p)
 
 ## test shortest path
 def printSolution(dist):
+    V = len(nodes_y)
     print("Vertex tDistance from Source")
     for node in range(V):
         print(node, "t", dist[node])
@@ -91,10 +92,10 @@ def printSolution(dist):
 # minimum distance value, from the set of vertices
 # not yet included in shortest path tree
 def minDistance(dist, sptSet , V):
-    V = len(nodes_y)
+   
     # Initilaize minimum distance for next node
     min = sys.maxsize
-
+    min_index=0
     # Search not nearest vertex not in the
     # shortest path tree
     for v in range(V):
@@ -108,7 +109,8 @@ def minDistance(dist, sptSet , V):
 # shortest path algorithm for a graph represented
 # using adjacency matrix representation
 def dijkstra(src , graph , V):
-    
+    print(sys.maxsize)
+    print(src)
     dist = [sys.maxsize] * V
     dist[src] = 0
     sptSet = [False] * V
@@ -132,41 +134,28 @@ def dijkstra(src , graph , V):
             if graph[u][v] > 0 and sptSet[v] == False and dist[v] > dist[u] + graph[u][v]:
                 dist[v] = dist[u] + graph[u][v]
 
-    printSolution(dist)
+    return dist
 
 # Shortest path algorithm-Dijkstra 
     #def Dijkstra(self, v0):
     # # Initialization operation
-dijkstra(1,nodes,len(nodes_y))
-#vertexn = len(nodes_y)
-# vertexes = nodes_y
-# arcs = nodes
-# v0=1
-# D = [inf]*vertexn  # Used to store the shortest path length from vertex v0 to v
-# path = [None]*vertexn  # Used to store the path from vertex v0 to v
-# final = [None]*vertexn  # Indicates whether the shortest path from v0 to v has been found
-# for i in range(vertexn):
-#     final[i] = False
-#     D[i] = arcs[v0][i]
-#     path[i] = ""  # Path first empty
-#     if D[i] < inf:
-#         path[i] = vertexes[i]  # If v0 is directly connected to the i-th point, the path is directly changed to i
-# D[v0] = 0
-# final[v0] = True
-# ###
-# for i in range(1, vertexn):
-#     min = inf  # Find the vertex closest to v0
-#     for k in range(vertexn):
-#         if(not final[k]) and (D[k] < min):
-#             v = k
-#             min = D[k]
-#     final[v] = True  # The nearest point is found and added to the shortest path set S that has been obtained. The subsequent min will be generated in a vertex other than S
-#     for k in range(vertexn):
-#         if(not final[k]) and (min+arcs[v][k] < D[k]):
-#             # If the shortest distance (v0-v) plus the distance from v to k is less than the existing distance from v0 to k
-#             D[k] = min+arcs[v][k]
-#             path[k] = str(path[v])+","+str(vertexes[k])
-# #return D, path
-# #print(D)
-# #print(nodes)
-# #print(nodes_y)
+
+def calculate_dikstra_for_all_nodes():
+    avgAllNodes=[]
+    number_of_nodes = int(len(nodes_y)*(0.1/100))
+    random_nodes = sample((list(nodes_y)),number_of_nodes)
+    print(random_nodes)
+    for node in random_nodes :
+        dist = []
+        dist = dijkstra(node , nodes , len(nodes_y) )
+        avgAllNodes.append(sum(dist)/len(dist))
+    output_file("avgDijkstra.html")
+    p = figure(plot_width=400, plot_height=400 )
+    p.line([3,2,1], random_nodes, line_width=2)
+    show(p)
+    return avgAllNodes,random_nodes
+
+avgAllNodes,random_nodes=calculate_dikstra_for_all_nodes()
+print(avgAllNodes)
+ 
+ ## chart dijkstra
