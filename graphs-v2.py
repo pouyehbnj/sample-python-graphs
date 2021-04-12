@@ -3,6 +3,7 @@ import networkx as nx
 import numpy as np
 from bokeh.plotting import figure, output_file, show
 from random import sample
+inf = float("inf")
 #loading data to dataframe
 df = pd.read_csv('./soc-sign-bitcoinalpha.csv' ,  names=['source','destination','weight'] ,usecols=[0,1,2])
 print("raw data:")
@@ -27,8 +28,8 @@ nodes_y = []
 degrees_x= []
 node_number=0
 for row in nodes:
-    node_number= node_number +1 
     nodes_y.append(node_number)
+    node_number= node_number +1 
     degree = 0
     for col in row:
         if col!=0 :
@@ -46,3 +47,66 @@ p.line(degrees_x,nodes_y, line_width=2)
 
 show(p)
     
+# calculate avg degree each node's neighbors
+avgDeg = []
+node_number = 0
+neighbor_id = 0
+for row in nodes: 
+    node_number= node_number +1 
+    numberNeighbors=0 
+    sumDegree=0
+    avg = 0
+    for col in row:
+        if col!=0 :
+            sumDegree = sumDegree + degrees_x[numberNeighbors]
+            neighbor_id = neighbor_id + 1   
+        numberNeighbors = numberNeighbors + 1         
+    if numberNeighbors != 0:  
+        avg = sumDegree/numberNeighbors
+   
+    avgDeg.append(avg)
+    print("Node " + str(node_number) + " - Avg Neighbor Dgree: " + str(avg))    
+    print("###########################")
+
+
+# chart avg degree node's neighbors
+output_file("avgNeighbors.html")
+
+p = figure(plot_width=400, plot_height=400 )
+p.line(avgDeg, nodes_y, line_width=2)
+show(p)
+
+# Shortest path algorithm-Dijkstra 
+    #def Dijkstra(self, v0):
+    # # Initialization operation
+
+# vertexn = len(nodes_y)
+# vertexes = nodes_y
+# arcs = nodes
+# v0=1581
+# D = [inf]*vertexn  # Used to store the shortest path length from vertex v0 to v
+# path = [None]*vertexn  # Used to store the path from vertex v0 to v
+# final = [None]*vertexn  # Indicates whether the shortest path from v0 to v has been found
+# for i in range(vertexn):
+#     final[i] = False
+#     D[i] = arcs[v0][i]
+#     path[i] = ""  # Path first empty
+#     if D[i] < inf:
+#         path[i] = vertexes[i]  # If v0 is directly connected to the i-th point, the path is directly changed to i
+# D[v0] = 0
+# final[v0] = True
+# ###
+# for i in range(1, vertexn):
+#     min = inf  # Find the vertex closest to v0
+#     for k in range(vertexn):
+#         if(not final[k]) and (D[k] < min):
+#             v = k
+#             min = D[k]
+#     final[v] = True  # The nearest point is found and added to the shortest path set S that has been obtained. The subsequent min will be generated in a vertex other than S
+#     for k in range(vertexn):
+#         if(not final[k]) and (min+arcs[v][k] < D[k]):
+#             # If the shortest distance (v0-v) plus the distance from v to k is less than the existing distance from v0 to k
+#             D[k] = min+arcs[v][k]
+#             path[k] = str(path[v])+","+str(vertexes[k])
+# #return D, path
+# print(D)
