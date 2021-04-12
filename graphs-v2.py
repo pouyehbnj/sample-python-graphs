@@ -4,6 +4,7 @@ import numpy as np
 from bokeh.plotting import figure, output_file, show
 from random import sample
 import sys
+import plotly.graph_objects as go
 inf = float("inf")
 #loading data to dataframe
 df = pd.read_csv('./soc-sign-bitcoinalpha.csv' ,  names=['source','destination','weight'] ,usecols=[0,1,2])
@@ -148,14 +149,22 @@ def calculate_dikstra_for_all_nodes():
     for node in random_nodes :
         dist = []
         dist = dijkstra(node , nodes , len(nodes_y) )
-        avgAllNodes.append(sum(dist)/len(dist))
-    output_file("avgDijkstra.html")
-    p = figure(plot_width=400, plot_height=400 )
-    p.line([3,2,1], random_nodes, line_width=2)
-    show(p)
+        print(f'sum dist {sum(dist)}')
+        print(len(dist))
+        avg = sum(dist)/len(dist)
+        avg2 = round(avg,2)
+        print(f'avg {avg}')
+        print(f'avg2 {avg2}')
+        print(format(avg, '2.0f'))
+        avgAllNodes.append(format(avg, '1.0f'))
+    
     return avgAllNodes,random_nodes
 
 avgAllNodes,random_nodes=calculate_dikstra_for_all_nodes()
 print(avgAllNodes)
  
  ## chart dijkstra
+fig3 = go.Figure()
+fig3.add_trace(go.Scatter(x=avgAllNodes, y=random_nodes))
+
+fig3.show()
