@@ -7,6 +7,8 @@ import math
 import matplotlib.pyplot as plt
 from bokeh.plotting import figure, output_file, show
 import plotly.graph_objects as go
+from matplotlib import pylab
+
 
 
 #loading data to dataframe
@@ -24,8 +26,9 @@ def node_sampling(Graph , k):
     sampled_nodes = random.sample(Graph.nodes, k)
     sampled_graph = Graph.subgraph(sampled_nodes)
     print(sampled_nodes)
-    nx.draw(sampled_graph , with_labels = True)
-    plt.savefig("filename.png")
+    nx.draw_networkx(sampled_graph , node_size=1000, with_labels = True)
+    plt.savefig("node-sampling.png")
+   # save_graph(sampled_graph,"my_graph.pdf")
     return sampled_graph
 
 # edge sampling
@@ -56,7 +59,7 @@ def edge_sampling(G):
         # Check for every node's neighbour in sample set of nodes
             G1.add_edge(x, y)
             # Add edge between the sampled nodes
-    nx.draw(G1 , with_labels = True)
+    nx.draw_networkx(G1 , node_size=1000, with_labels = True)
     plt.savefig("edge-sampling.png")
     return G1
 
@@ -94,23 +97,45 @@ def random_walking(complete_graph , growth_size , T , nodes_to_sample):
             if ((sampled_graph.number_of_edges() - edges_before_t_iter) < growth_size):
                 curr_node = random.randint(0, nr_nodes - 1)
             edges_before_t_iter = sampled_graph.number_of_edges()
-    nx.draw(sampled_graph , with_labels = True)
+    nx.draw_networkx(sampled_graph , node_size=1000, with_labels = True)
     plt.savefig("random-walk.png")
     return sampled_graph
 
 #random_walking(Graph , 2 , 100 , 100)
+
+# def save_graph(graph,file_name):
+#     #initialze Figure
+#     plt.figure(num=None, figsize=(20, 20), dpi=80)
+#     plt.axis('off')
+#     fig = plt.figure(1)
+#     pos = nx.spring_layout(graph)
+#     nx.draw_networkx_nodes(graph,pos)
+#     nx.draw_networkx_edges(graph,pos)
+#     nx.draw_networkx_labels(graph,pos)
+
+#     cut = 1.00
+#     xmax = cut * max(xx for xx, yy in pos.values())
+#     ymax = cut * max(yy for xx, yy in pos.values())
+#     plt.xlim(0, xmax)
+#     plt.ylim(0, ymax)
+
+#     plt.savefig(file_name,bbox_inches="tight")
+#     pylab.close()
+#     del fig
+
+
 def find_important_nodes(Graph):
     degree=nx.degree_centrality(Graph)
     degreeArray = sorted(degree, key=degree.get, reverse=True)[:30]
 
    
-    centrality = nx.eigenvector_centrality(Graph)
+    centrality = nx.eigenvector_centrality_numpy(Graph)
     eigenvectorArray = sorted(centrality, key=centrality.get, reverse=True)[:30]
     
-    #betCent = nx.betweenness_centrality(Graph, normalized=False, endpoints=True , weight = 'weight')
-    #betweennessArray = sorted(betCent, key=betCent.get, reverse=True)[:30]
-    #important_nodes=list(set(degreeArray)|set(eigenvectorArray) | set(betweennessArray))
-    important_nodes=list(set(degreeArray)|set(eigenvectorArray))
+    betCent = nx.betweenness_centrality(Graph, normalized=False, endpoints=True , weight = 'weight')
+    betweennessArray = sorted(betCent, key=betCent.get, reverse=True)[:30]
+    important_nodes=list(set(degreeArray)|set(eigenvectorArray) | set(betweennessArray))
+    #important_nodes=list(set(degreeArray)|set(eigenvectorArray))
     print(important_nodes)
     return important_nodes
 
