@@ -26,7 +26,7 @@ def node_sampling(Graph , k):
     sampled_nodes = random.sample(Graph.nodes, k)
     sampled_graph = Graph.subgraph(sampled_nodes)
     print(sampled_nodes)
-    nx.draw_networkx(sampled_graph , node_size=1000, with_labels = True)
+    nx.draw(sampled_graph , with_labels = True)
     plt.savefig("node-sampling.png")
    # save_graph(sampled_graph,"my_graph.pdf")
     return sampled_graph
@@ -59,7 +59,7 @@ def edge_sampling(G ,k):
         # Check for every node's neighbour in sample set of nodes
             G1.add_edge(x, y)
             # Add edge between the sampled nodes
-    nx.draw_networkx(G1 , node_size=1000, with_labels = True)
+    nx.draw(G1, with_labels = True)
     plt.savefig("edge-sampling.png")
     return G1
 
@@ -97,7 +97,7 @@ def random_walking(complete_graph , growth_size , T , nodes_to_sample):
             if ((sampled_graph.number_of_edges() - edges_before_t_iter) < growth_size):
                 curr_node = random.randint(0, nr_nodes - 1)
             edges_before_t_iter = sampled_graph.number_of_edges()
-    nx.draw_networkx(sampled_graph , node_size=1000, with_labels = True)
+    nx.draw(sampled_graph , with_labels = True)
     plt.savefig("random-walk.png")
     return sampled_graph
 
@@ -148,6 +148,10 @@ important_nodes_node_sample_graph=find_important_nodes(node_sample_graph)
 important_nodes_edge_sample_graph=find_important_nodes(edge_sample_graph)
 important_nodes_random_walk_graph=find_important_nodes(random_walk_graph)
 
+print(f'important nodes from node sampling : {important_nodes_node_sample_graph}')
+print(f'important nodes from edge sampling : {important_nodes_edge_sample_graph}')
+print(f'important nodes from random walk sampling : {important_nodes_random_walk_graph}')
+print(f'important nodes main graph : {important_nodes_main_graph}')
 numberOfCommonNodeSample= list(set(important_nodes_main_graph)&set(important_nodes_node_sample_graph))
 numberOfCommonEdgeSample= list(set(important_nodes_main_graph)&set(important_nodes_edge_sample_graph))
 numberOfCommonWalkSample= list(set(important_nodes_main_graph)&set(important_nodes_random_walk_graph))
