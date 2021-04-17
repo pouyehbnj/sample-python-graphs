@@ -6,6 +6,8 @@ import matplotlib.pyplot as plt
 from networkx.drawing.nx_agraph import graphviz_layout
 from bokeh.plotting import figure, output_file, show
 from random import sample
+import plotly.graph_objects as go
+
 # loading data to dataframe
 df = pd.read_csv('./soc-sign-bitcoinalpha.csv',
                  names=['source', 'destination', 'weight'], usecols=[0, 1, 2])
@@ -55,11 +57,12 @@ random_node = random.sample(set(list(Graph.nodes())), 1)[0]
 color_graph(random_node, s, 0)
 output_file("randomNode.html")
 
-p = figure(plot_width=400, plot_height=400)
-p.line(iteration_x,percentage_y, line_width=2)
+# p = figure(plot_width=400, plot_height=400)
+# p.line(iteration_x,percentage_y, line_width=2)
 
-show(p)
-
+# show(p)
+fig = go.Figure()
+fig.add_trace(go.Scatter(x=iteration_x, y=percentage_y ,name="random"))
 s.clear()
 iteration_x.clear()
 percentage_y.clear()
@@ -69,7 +72,11 @@ print("the most degreed node",str(most_degreed_node))
 color_graph(most_degreed_node,s,0)
 output_file("mostDegreed.html")
 
-p = figure(plot_width=400, plot_height=400)
-p.line(iteration_x,percentage_y, line_width=2)
+# p = figure(plot_width=400, plot_height=400)
+# p.line(iteration_x,percentage_y, line_width=2)
 
-show(p)
+# show(p)
+
+
+fig.add_trace(go.Scatter(x=iteration_x, y=percentage_y , name="important node"))
+fig.show()  

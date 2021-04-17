@@ -32,14 +32,14 @@ def node_sampling(Graph , k):
     return sampled_graph
 
 # edge sampling
-def edge_sampling(G):
+def edge_sampling(G ,k):
     V = G.nodes()
     G1=nx.Graph()
     # Calculate number of nodes in Graph G
     Vs = []
     # Empty list Vs
     
-    while (len(Vs) <= 100):
+    while (len(Vs) <= k):
     # Loops run till sample size * length of V where V is number of nodes in graph as calculated above.
         edges_sample = random.sample(G.edges(), 1)
         # Randomly samples one edge from a graph at a time
@@ -140,9 +140,9 @@ def find_important_nodes(Graph):
     return important_nodes
 
 
-node_sample_graph=node_sampling(Graph , 100)
-edge_sample_graph=edge_sampling(Graph)
-random_walk_graph=random_walking(Graph , 2 , 100 , 100)
+node_sample_graph=node_sampling(Graph , 500)
+edge_sample_graph=edge_sampling(Graph , 500)
+random_walk_graph=random_walking(Graph , 2 , 100 , 500)
 important_nodes_main_graph=find_important_nodes(Graph)
 important_nodes_node_sample_graph=find_important_nodes(node_sample_graph)
 important_nodes_edge_sample_graph=find_important_nodes(edge_sample_graph)
