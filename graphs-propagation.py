@@ -17,8 +17,8 @@ Graph = nx.from_pandas_edgelist(
     df, source='source', target='destination', edge_attr='weight')
 print(Graph)
 
-iteration_y =[]
-percentage_x = []
+iteration_x =[]
+percentage_y = []
 
 def color_graph(node, s, iteration):
     
@@ -41,10 +41,10 @@ def color_graph(node, s, iteration):
             color_graph(random_node, s, iteration)
         else:
             old_percentage = color_percentage
-            iteration_y.append(iteration)
+            iteration_x.append(iteration)
             print("Iteration Number:", str(iteration))
             iteration = iteration + 1
-            percentage_x.append(color_percentage)
+            percentage_y.append(color_percentage)
             print("The percentage is :", str(color_percentage), "%")
             print("Number of colored nodes :", str(len(s)))
             print("Number of colored nodes :", str(len(list(Graph.nodes()))))
@@ -62,10 +62,10 @@ output_file("randomNode.html")
 
 # show(p)
 fig = go.Figure()
-fig.add_trace(go.Scatter(x=percentage_x, y=iteration_y ,name="random"))
+fig.add_trace(go.Scatter(x=iteration_x , y=percentage_y ,name="random"))
 s.clear()
-iteration_y.clear()
-percentage_x.clear()
+iteration_x.clear()
+percentage_y.clear()
 most_degreed_node = list(sorted(Graph.degree, key=lambda x: x[1], reverse=True))[0][0]
 
 print("the most degreed node",str(most_degreed_node))
@@ -78,5 +78,5 @@ output_file("mostDegreed.html")
 # show(p)
 
 
-fig.add_trace(go.Scatter(x=percentage_x, y=iteration_y , name="important node"))
+fig.add_trace(go.Scatter(x=iteration_x, y= percentage_y , name="important node"))
 fig.show()  
